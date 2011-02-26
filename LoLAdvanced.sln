@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoLAdvanced", "LoLAdvanced\LoLAdvanced.vcxproj", "{AAFE4B78-477F-41B1-8421-CC26DB70015C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoL!Loader", "LoL!Loader\LoL!Loader.vcxproj", "{728C1D88-9BDE-41B2-8D4A-2EE697B69C69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AAFE4B78-477F-41B1-8421-CC26DB70015C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AAFE4B78-477F-41B1-8421-CC26DB70015C}.Debug|Win32.Build.0 = Debug|Win32
+		{AAFE4B78-477F-41B1-8421-CC26DB70015C}.Release|Win32.ActiveCfg = Release|Win32
+		{AAFE4B78-477F-41B1-8421-CC26DB70015C}.Release|Win32.Build.0 = Release|Win32
+		{728C1D88-9BDE-41B2-8D4A-2EE697B69C69}.Debug|Win32.ActiveCfg = Debug|Win32
+		{728C1D88-9BDE-41B2-8D4A-2EE697B69C69}.Debug|Win32.Build.0 = Debug|Win32
+		{728C1D88-9BDE-41B2-8D4A-2EE697B69C69}.Release|Win32.ActiveCfg = Release|Win32
+		{728C1D88-9BDE-41B2-8D4A-2EE697B69C69}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
