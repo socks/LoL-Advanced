@@ -8,6 +8,7 @@ public:
 	inline char* GetName( void ) { return m_lpszName; }
 	inline float* GetPos( void ) { return m_fPos; }
 	inline float GetMissChance( void ) { return m_fMissChance; }
+	inline DWORD GetNetworkId( void ) { return m_dwNetworkId; }
 	inline float GetHealth( void ) { return m_fHealth; }
 	inline float GetMana( void ) { return m_fMana; }
 	inline float GetRange( void ) { return m_fRange; }
@@ -28,7 +29,9 @@ private:
 	/* 0x005C */ float m_fPos[ 3 ];
 	/* 0x0068 */ BYTE _68[ 0x88 ];
 	/* 0x00F0 */ float m_fMissChance;
-	/* 0x00F4 */ BYTE _F4[ 0x28 ];
+	/* 0x00F4 */ BYTE _F4[ 0x04 ];
+	/* 0x00F8 */ DWORD m_dwNetworkId;
+	/* 0x00FC */ BYTE _FC[ 0x20 ];
 	/* 0x011C */ float m_fHealth;
 	/* 0x0120 */ BYTE _120[ 0x44 ];
 	/* 0x0164 */ float m_fMana;

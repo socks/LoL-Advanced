@@ -18,12 +18,11 @@
 #endif
 
 // Variables
-MakeVar( NetApp::ClientFacade**, g_lpcClientFace, 0x2A8FFC4 )
 MakeVar( ObjectManager*, g_lpcUnitManager, 0x2B1BD5C )
 MakeVar( Unit**, g_lpcLocalPlayer, 0x009e7f70 )
 
 // Function Pointers
-MakeFnc( void, __fastcall, (void), Game_Loop, 0x00750D95 )
+MakeFnc( void, __fastcall, ( void ), Game_Loop, 0x00750D95 )
 MakeFnc( void, __thiscall, ( Unit* _this, DWORD dwActionType, float* lpfPos, Unit* lpcTarget, DWORD dwArg4, DWORD dwArg5, bool bUnk ), Unit_IssueOrder, 0x6E6120 )
 
 #undef MakeFnc
