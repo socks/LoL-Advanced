@@ -9,3 +9,15 @@ Unit::CalcDistance( Unit* lpcUnitA, Unit* lpcUnitB )
 
 	return sqrt( pow( lpfPosA[ 0 ] - lpfPosB[ 0 ], 2 ) + pow( lpfPosA[ 1 ] - lpfPosB[ 1 ], 2 ) );
 }
+
+Unit*
+Unit::GetUnitByNetworkId( DWORD dwNetworkId )
+{
+	return Unit_GetUnitByNetworkId( dwNetworkId );
+}
+
+Unit*
+Unit::GetPlayerToon( void )
+{
+	return *g_lpcLocalPlayer;
+}

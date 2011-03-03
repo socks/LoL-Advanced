@@ -7,9 +7,10 @@
 #include <math.h>
 #include <stdio.h>
 
-#define DPRINT
+#define DPRINT __noop
 
 #include "Memory.hpp"
+#include "Automate.hpp"
 #include "Core.hpp"
 #include "LoLPtrs.hpp"
 #include "Detours.hpp"

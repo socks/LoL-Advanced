@@ -17,6 +17,8 @@ public:
 	inline float GetTotalDamage( void ) { return m_fBaseDamage + m_fAddedDamage; }
 
 	static float CalcDistance( Unit* lpcUnitA, Unit* lpcUnitB );
+	static Unit* GetUnitByNetworkId( DWORD dwNetworkId );
+	static Unit* GetPlayerToon( void );
 
 private:
 	/* 0x0000 */ BYTE _00[ 0x12 ];

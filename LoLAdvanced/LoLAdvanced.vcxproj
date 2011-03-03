@@ -72,24 +72,27 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Automate.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Detours.cpp" />
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="NetApp.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Automate.hpp" />
     <ClInclude Include="Core.hpp" />
     <ClInclude Include="Detours.hpp" />
     <ClInclude Include="LoLPtrs.hpp" />
