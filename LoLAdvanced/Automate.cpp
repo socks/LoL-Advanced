@@ -25,7 +25,7 @@ CAutomate::OnGameLoop( void )
 
 			for( Unit** lpcIterator = (*g_lpcUnitManager).GetFirst( ); lpcIterator != (*g_lpcUnitManager).GetEnd( ); lpcIterator++ )
 			{
-				if( (*lpcIterator) == NULL )
+				if( (*lpcIterator) == NULL || lpcPlayer == NULL )
 				{
 					continue;
 				}
@@ -82,7 +82,7 @@ CAutomate::OnGameLoop( void )
 	
 		for( Unit** lpcIterator = (*g_lpcUnitManager).GetFirst( ); lpcIterator != (*g_lpcUnitManager).GetEnd( ); lpcIterator++ )
 		{
-			if( (*lpcIterator) == NULL )
+			if( (*lpcIterator) == NULL || (*g_lpcLocalPlayer) == NULL )
 			{
 				continue;
 			}
