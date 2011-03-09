@@ -11,7 +11,9 @@ public:
 	void OnGameLoop( void );
 
 private:
-	DWORD	m_dwAttackTick;
+	DWORD	m_dwLastBestTick;
+	DWORD	m_dwLastAutoTick;
 	DWORD	m_dwLastCheck;
+	bool    m_bInUse;
 	std::map<DWORD, float>	m_cUnitHealth;
 };

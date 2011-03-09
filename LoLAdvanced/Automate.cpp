@@ -2,8 +2,10 @@
 
 CAutomate::CAutomate( void )
 {
-	m_dwAttackTick = 0;
+	m_dwLastBestTick = 0;
+	m_dwLastAutoTick = 0;
 	m_dwLastCheck = 0;
+	m_bInUse = false;
 	m_cUnitHealth.clear( );
 }
 
@@ -16,9 +18,15 @@ CAutomate::OnGameLoop( void )
 {
 	if( GetTickCount( ) - m_dwLastCheck >= 100 )
 	{
-		if( GetAsyncKeyState( VK_MENU ) & 0x8000 && GetTickCount( ) - m_dwAttackTick >= 450 && GetForegroundWindow( ) == CCore::s_lpcCore->m_hWnd )
+		if( GetAsyncKeyState( VK_MENU ) & 0x8000 && GetTickCount( ) - m_dwLastBestTick >= 450 && GetForegroundWindow( ) == CCore::s_lpcCore->m_hWnd )
 		{
 			Unit* lpcPlayer = *g_lpcLocalPlayer;
+
+			if( m_bInUse == false )
+			{
+				OutputDebugStringA("Toggled On\n");
+				m_bInUse = true;
+			}
 
 			Unit* lpcBestUnit = NULL;
 			bool bUnitWithinRange = false;
@@ -73,10 +81,22 @@ CAutomate::OnGameLoop( void )
 			{
 				if( lpcBestUnit != NULL )
 				{
-					m_dwAttackTick = GetTickCount( );
+					m_dwLastBestTick = GetTickCount( );
+				}
+				
+				if( lpcBestUnit != NULL || GetTickCount( ) - m_dwLastAutoTick >= 450 )
+				{
+					char buffer[40];
+					sprintf(buffer, "%d Issuing %s\n",GetTickCount( ),lpcBestUnit==NULL ? "Auto Attack" : "Last Hit");
+					OutputDebugStringA(buffer);
+
+					Unit_IssueOrder( lpcPlayer, lpcBestUnit == NULL ? 2 : 3, lpcBestUnit == NULL ? lpcPlayer->GetPos( ) : lpcBestUnit->GetPos( ), lpcBestUnit, 0, 0, true );
 				}
 
-				Unit_IssueOrder( lpcPlayer, lpcBestUnit == NULL ? 2 : 3, lpcBestUnit == NULL ? lpcPlayer->GetPos( ) : lpcBestUnit->GetPos( ), lpcBestUnit, 0, 0, true );
+				if( lpcBestUnit == NULL )
+				{
+					m_dwLastAutoTick = GetTickCount( );
+				}
 			}
 		}
 	
@@ -106,5 +126,13 @@ CAutomate::OnGameLoop( void )
 		}
 
 		m_dwLastCheck = GetTickCount( );
+	}
+	if( ! (GetAsyncKeyState( VK_MENU ) & 0x8000) )
+	{
+		if( m_bInUse == true )
+		{
+			OutputDebugStringA("Toggled Off\n");
+			m_bInUse = false;
+		}
 	}
 }
