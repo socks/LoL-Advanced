@@ -41,6 +41,6 @@ private:
 	/* 0x0A40 */ float m_fAddedDamage;
 	/* 0x0A44 */ BYTE _A44[ 0x60 ];
 	/* 0x0AA4 */ float m_fBaseDamage;
-	/* 0x0AA8 */ BYTE _AA8[ 0x30 ];
-	/* 0x0AD8 */ float m_fRange;
+	/* 0x0AA8 */ BYTE _AA8[ 0x40 ];
+	/* 0x0AE8 */ float m_fRange;
 };
