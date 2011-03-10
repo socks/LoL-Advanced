@@ -89,8 +89,8 @@ CAutomate::OnGameLoop( void )
 #endif//_DEBUG
 
 				// Attempt to animation cancel
-				float fZero = 0.0f;
-				Unit_IssueOrder( lpcPlayer, 37, &fZero , 0, 0, 0, true );
+				float fZero[ ] = { 0.0f, 0.0f, 0.0f };
+				Unit_IssueOrder( lpcPlayer, 37, fZero , 0, 0, 0, true );
 				Unit_IssueOrder( lpcPlayer, 3, lpcBestUnit->GetPos( ), lpcBestUnit, 0, 0, true );
 			}
 		}
