@@ -3,7 +3,6 @@
 CAutomate::CAutomate( void )
 {
 	m_dwLastBestTick = 0;
-	m_dwLastAutoTick = 0;
 	m_dwLastCheck = 0;
 	m_bInUse = false;
 	m_cUnitHealth.clear( );
@@ -16,11 +15,11 @@ CAutomate::~CAutomate( void )
 void
 CAutomate::OnGameLoop( void )
 {
-	DWORD ldCurrentTickCount = GetTickCount( );
+	DWORD dwCurrentTickCount = GetTickCount( );
 
-	if( ldCurrentTickCount - m_dwLastCheck >= 100 )
+	if( dwCurrentTickCount - m_dwLastCheck >= 100 )
 	{
-		if( GetAsyncKeyState( VK_MENU ) & 0x8000 && ldCurrentTickCount - m_dwLastBestTick >= 450 && GetForegroundWindow( ) == CCore::s_lpcCore->m_hWnd )
+		if( GetAsyncKeyState( VK_MENU ) & 0x8000 && dwCurrentTickCount - m_dwLastBestTick >= 450 && GetForegroundWindow( ) == CCore::s_lpcCore->m_hWnd )
 		{
 			Unit* lpcPlayer = *g_lpcLocalPlayer;
 
@@ -31,7 +30,6 @@ CAutomate::OnGameLoop( void )
 			}
 
 			Unit* lpcBestUnit = NULL;
-			bool bUnitWithinRange = false;
 
 			for( Unit** lpcIterator = (*g_lpcUnitManager).GetFirst( ); lpcIterator != (*g_lpcUnitManager).GetEnd( ); lpcIterator++ )
 			{
@@ -59,8 +57,6 @@ CAutomate::OnGameLoop( void )
 				{
 					continue;
 				}
-
-				bUnitWithinRange = true;
 			
 				if( m_cUnitHealth.find( (*lpcIterator)->GetNetworkId( ) ) != m_cUnitHealth.end( ) )
 				{
@@ -79,33 +75,18 @@ CAutomate::OnGameLoop( void )
 				}
 			}
 		
-			if( bUnitWithinRange == true )
+			if( lpcBestUnit != NULL )
 			{
-				if( lpcBestUnit != NULL )
-				{
-					m_dwLastBestTick = ldCurrentTickCount;
-				}
+				m_dwLastBestTick = dwCurrentTickCount;
 				
-				if( lpcBestUnit != NULL || ldCurrentTickCount - m_dwLastAutoTick >= 450 )
-				{
-					char szBuffer[128];
-					if( lpcBestUnit != NULL )
-					{
-						sprintf(szBuffer, "%d Issuing Last Hit | Minion Current Health: %04.02f | Health in 500ms: %04.02f\n",ldCurrentTickCount,lpcBestUnit->GetHealth( ),lpcBestUnit->GetHealth( ) - ( ( m_cUnitHealth[ lpcBestUnit->GetNetworkId( ) ].front( ) - m_cUnitHealth[ lpcBestUnit->GetNetworkId( ) ].back( ) ) / 1.5f ) );
-					}
-					else
-					{
-						sprintf(szBuffer, "%d Issuing Auto Attack\n",ldCurrentTickCount );
-					}
-					OutputDebugStringA(szBuffer);
+				char szBuffer[128];
+				sprintf(szBuffer, "%d Issuing Last Hit | Minion Current Health: %04.02f | Health in 750ms: %04.02f\n",dwCurrentTickCount,lpcBestUnit->GetHealth( ),lpcBestUnit->GetHealth( ) - ( ( m_cUnitHealth[ lpcBestUnit->GetNetworkId( ) ].front( ) - m_cUnitHealth[ lpcBestUnit->GetNetworkId( ) ].back( ) ) / 1.5f ) );
+				OutputDebugStringA(szBuffer);
 
-					Unit_IssueOrder( lpcPlayer, lpcBestUnit == NULL ? 2 : 3, lpcBestUnit == NULL ? lpcPlayer->GetPos( ) : lpcBestUnit->GetPos( ), lpcBestUnit, 0, 0, true );
-				}
-
-				if( lpcBestUnit == NULL )
-				{
-					m_dwLastAutoTick = ldCurrentTickCount;
-				}
+				// Attempt to animation cancel
+				float fZero = 0.0f;
+				Unit_IssueOrder( lpcPlayer, 37, &fZero , 0, 0, 0, true );
+				Unit_IssueOrder( lpcPlayer, 3, lpcBestUnit->GetPos( ), lpcBestUnit, 0, 0, true );
 			}
 		}
 	
@@ -139,7 +120,7 @@ CAutomate::OnGameLoop( void )
 			
 		}
 
-		m_dwLastCheck = ldCurrentTickCount;
+		m_dwLastCheck = dwCurrentTickCount;
 	}
 	if( ! (GetAsyncKeyState( VK_MENU ) & 0x8000) )
 	{
