@@ -62,7 +62,7 @@ CAutomate::OnGameLoop( void )
 			
 				if( m_cUnitHealth.find( (*lpcIterator)->GetNetworkId( ) ) != m_cUnitHealth.end( ) )
 				{
-					float fDmgDealt = m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ] - (*lpcIterator)->GetHealth( );
+					float fDmgDealt = m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ].front() - m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ].back();
 
 					if( (*lpcIterator)->GetHealth( ) - ( fDmgDealt / 2 + lpcPlayer->GetTotalDamage( ) ) <= 5.0f )
 					{			
@@ -70,7 +70,7 @@ CAutomate::OnGameLoop( void )
 						break;
 					}
 				}
-				else if( lpcPlayer->GetTotalDamage( ) * 1.05f >= (*lpcIterator)->GetHealth( ) )
+				else if( lpcPlayer->GetTotalDamage( ) * 2.f >= (*lpcIterator)->GetHealth( ) )
 				{
 					lpcBestUnit = *lpcIterator;
 					break;
@@ -86,9 +86,9 @@ CAutomate::OnGameLoop( void )
 				
 				if( lpcBestUnit != NULL || GetTickCount( ) - m_dwLastAutoTick >= 450 )
 				{
-					char buffer[40];
-					sprintf(buffer, "%d Issuing %s\n",GetTickCount( ),lpcBestUnit==NULL ? "Auto Attack" : "Last Hit");
-					OutputDebugStringA(buffer);
+					char szBuffer[40];
+					sprintf(szBuffer, "%d Issuing %s\n",GetTickCount( ),lpcBestUnit==NULL ? "Auto Attack" : "Last Hit");
+					OutputDebugStringA(szBuffer);
 
 					Unit_IssueOrder( lpcPlayer, lpcBestUnit == NULL ? 2 : 3, lpcBestUnit == NULL ? lpcPlayer->GetPos( ) : lpcBestUnit->GetPos( ), lpcBestUnit, 0, 0, true );
 				}
@@ -122,7 +122,12 @@ CAutomate::OnGameLoop( void )
 				continue;
 			}
 
-			m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ] = (*lpcIterator)->GetHealth( );
+			m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ].push_back((*lpcIterator)->GetHealth( ));
+			if( m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ].size( ) > 10 )
+			{
+				m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ].pop_front( );
+			}
+			
 		}
 
 		m_dwLastCheck = GetTickCount( );
