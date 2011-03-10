@@ -66,13 +66,13 @@ CAutomate::OnGameLoop( void )
 				{
 					float fDmgDealt = m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ].front() - m_cUnitHealth[ (*lpcIterator)->GetNetworkId( ) ].back();
 
-					if( (*lpcIterator)->GetHealth( ) - ( fDmgDealt / 2 + lpcPlayer->GetTotalDamage( ) ) <= 5.0f )
+					if( (*lpcIterator)->GetHealth( ) - ( fDmgDealt / 1.5f + lpcPlayer->GetTotalDamage( ) ) <= 5.0f )
 					{			
 						lpcBestUnit = *lpcIterator;
 						break;
 					}
 				}
-				else if( lpcPlayer->GetTotalDamage( ) * 2.f >= (*lpcIterator)->GetHealth( ) )
+				else if( lpcPlayer->GetTotalDamage( ) * 2.0f >= (*lpcIterator)->GetHealth( ) )
 				{
 					lpcBestUnit = *lpcIterator;
 					break;
@@ -88,8 +88,15 @@ CAutomate::OnGameLoop( void )
 				
 				if( lpcBestUnit != NULL || ldCurrentTickCount - m_dwLastAutoTick >= 450 )
 				{
-					char szBuffer[40];
-					sprintf(szBuffer, "%d Issuing %s\n",ldCurrentTickCount,lpcBestUnit==NULL ? "Auto Attack" : "Last Hit");
+					char szBuffer[128];
+					if( lpcBestUnit != NULL )
+					{
+						sprintf(szBuffer, "%d Issuing Last Hit | Minion Current Health: %04.02f | Health in 500ms: %04.02f\n",ldCurrentTickCount,lpcBestUnit->GetHealth( ),lpcBestUnit->GetHealth( ) - ( ( m_cUnitHealth[ lpcBestUnit->GetNetworkId( ) ].front( ) - m_cUnitHealth[ lpcBestUnit->GetNetworkId( ) ].back( ) ) / 1.5f ) );
+					}
+					else
+					{
+						sprintf(szBuffer, "%d Issuing Auto Attack\n",ldCurrentTickCount );
+					}
 					OutputDebugStringA(szBuffer);
 
 					Unit_IssueOrder( lpcPlayer, lpcBestUnit == NULL ? 2 : 3, lpcBestUnit == NULL ? lpcPlayer->GetPos( ) : lpcBestUnit->GetPos( ), lpcBestUnit, 0, 0, true );
