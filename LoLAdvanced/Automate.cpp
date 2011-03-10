@@ -16,9 +16,11 @@ CAutomate::~CAutomate( void )
 void
 CAutomate::OnGameLoop( void )
 {
-	if( GetTickCount( ) - m_dwLastCheck >= 100 )
+	DWORD ldCurrentTickCount = GetTickCount( );
+
+	if( ldCurrentTickCount - m_dwLastCheck >= 100 )
 	{
-		if( GetAsyncKeyState( VK_MENU ) & 0x8000 && GetTickCount( ) - m_dwLastBestTick >= 450 && GetForegroundWindow( ) == CCore::s_lpcCore->m_hWnd )
+		if( GetAsyncKeyState( VK_MENU ) & 0x8000 && ldCurrentTickCount - m_dwLastBestTick >= 450 && GetForegroundWindow( ) == CCore::s_lpcCore->m_hWnd )
 		{
 			Unit* lpcPlayer = *g_lpcLocalPlayer;
 
@@ -81,13 +83,13 @@ CAutomate::OnGameLoop( void )
 			{
 				if( lpcBestUnit != NULL )
 				{
-					m_dwLastBestTick = GetTickCount( );
+					m_dwLastBestTick = ldCurrentTickCount;
 				}
 				
-				if( lpcBestUnit != NULL || GetTickCount( ) - m_dwLastAutoTick >= 450 )
+				if( lpcBestUnit != NULL || ldCurrentTickCount - m_dwLastAutoTick >= 450 )
 				{
 					char szBuffer[40];
-					sprintf(szBuffer, "%d Issuing %s\n",GetTickCount( ),lpcBestUnit==NULL ? "Auto Attack" : "Last Hit");
+					sprintf(szBuffer, "%d Issuing %s\n",ldCurrentTickCount,lpcBestUnit==NULL ? "Auto Attack" : "Last Hit");
 					OutputDebugStringA(szBuffer);
 
 					Unit_IssueOrder( lpcPlayer, lpcBestUnit == NULL ? 2 : 3, lpcBestUnit == NULL ? lpcPlayer->GetPos( ) : lpcBestUnit->GetPos( ), lpcBestUnit, 0, 0, true );
@@ -95,7 +97,7 @@ CAutomate::OnGameLoop( void )
 
 				if( lpcBestUnit == NULL )
 				{
-					m_dwLastAutoTick = GetTickCount( );
+					m_dwLastAutoTick = ldCurrentTickCount;
 				}
 			}
 		}
@@ -130,7 +132,7 @@ CAutomate::OnGameLoop( void )
 			
 		}
 
-		m_dwLastCheck = GetTickCount( );
+		m_dwLastCheck = ldCurrentTickCount;
 	}
 	if( ! (GetAsyncKeyState( VK_MENU ) & 0x8000) )
 	{
