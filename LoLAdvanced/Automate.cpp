@@ -4,7 +4,9 @@ CAutomate::CAutomate( void )
 {
 	m_dwLastBestTick = 0;
 	m_dwLastCheck = 0;
+#ifdef _DEBUG
 	m_bInUse = false;
+#endif//_DEBUG
 	m_cUnitHealth.clear( );
 }
 
@@ -23,11 +25,13 @@ CAutomate::OnGameLoop( void )
 		{
 			Unit* lpcPlayer = *g_lpcLocalPlayer;
 
+#ifdef _DEBUG
 			if( m_bInUse == false )
 			{
 				OutputDebugStringA("Toggled On\n");
 				m_bInUse = true;
 			}
+#endif//_DEBUG
 
 			Unit* lpcBestUnit = NULL;
 
@@ -78,10 +82,11 @@ CAutomate::OnGameLoop( void )
 			if( lpcBestUnit != NULL )
 			{
 				m_dwLastBestTick = dwCurrentTickCount;
-				
+#ifdef _DEBUG				
 				char szBuffer[128];
 				sprintf(szBuffer, "%d Issuing Last Hit | Minion Current Health: %04.02f | Health in 750ms: %04.02f\n",dwCurrentTickCount,lpcBestUnit->GetHealth( ),lpcBestUnit->GetHealth( ) - ( ( m_cUnitHealth[ lpcBestUnit->GetNetworkId( ) ].front( ) - m_cUnitHealth[ lpcBestUnit->GetNetworkId( ) ].back( ) ) / 1.5f ) );
 				OutputDebugStringA(szBuffer);
+#endif//_DEBUG
 
 				// Attempt to animation cancel
 				float fZero = 0.0f;
@@ -122,6 +127,7 @@ CAutomate::OnGameLoop( void )
 
 		m_dwLastCheck = dwCurrentTickCount;
 	}
+#ifdef _DEBUG
 	if( ! (GetAsyncKeyState( VK_MENU ) & 0x8000) )
 	{
 		if( m_bInUse == true )
@@ -130,4 +136,5 @@ CAutomate::OnGameLoop( void )
 			m_bInUse = false;
 		}
 	}
+#endif//DEBUG
 }
