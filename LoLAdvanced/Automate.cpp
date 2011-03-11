@@ -29,6 +29,7 @@ CAutomate::OnGameLoop( void )
 			if( m_bInUse == false )
 			{
 				OutputDebugStringA("Toggled On\n");
+				CCore::s_lpcCore->Print("Last Hit Bot is now <font color='#00FF00'>Activated</font>");
 				m_bInUse = true;
 			}
 #endif//_DEBUG
@@ -133,6 +134,7 @@ CAutomate::OnGameLoop( void )
 		if( m_bInUse == true )
 		{
 			OutputDebugStringA("Toggled Off\n");
+			CCore::s_lpcCore->Print("Last Hit Bot is now <font color='#FF0000'>Deactivated</font>");
 			m_bInUse = false;
 		}
 	}
