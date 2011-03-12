@@ -117,8 +117,8 @@ DWORD CMemory::_Patch( EPatchType eType, DWORD dwAddress, DWORD dwDetour, DWORD 
 				*(DWORD*)&yCave[ 1 ] = dwDetour - dwAddress - 5;
 
 				// Backup the old code
-				VirtualProtect( (void*) dwAddress, sizeof( DWORD ), PAGE_EXECUTE_READWRITE, &dwProtect );
-				memcpy( lpsPatch->yBackup, (void*) dwAddress, sizeof( DWORD ) );
+				VirtualProtect( (void*) dwAddress, dwLength, PAGE_EXECUTE_READWRITE, &dwProtect );
+				memcpy( lpsPatch->yBackup, (void*) dwAddress, dwLength );
 
 				// Allocate some memory on which the back up'd code gets copied onto.
 				lpsPatch->dwTrampolin = (DWORD) VirtualAlloc( NULL, dwLength, MEM_COMMIT, PAGE_EXECUTE_READWRITE );
@@ -131,7 +131,7 @@ DWORD CMemory::_Patch( EPatchType eType, DWORD dwAddress, DWORD dwDetour, DWORD 
 				// now patch it				
 				memcpy( (void*)dwAddress, yCave, dwLength );
 				
-				VirtualProtect( (void*) dwAddress, sizeof( DWORD ), dwProtect, &dwProtect );
+				VirtualProtect( (void*) dwAddress, dwLength, dwProtect, &dwProtect );
 			}
 			break;
 		default:
