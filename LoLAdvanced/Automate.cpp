@@ -4,9 +4,7 @@ CAutomate::CAutomate( void )
 {
 	m_dwLastBestTick = 0;
 	m_dwLastCheck = 0;
-#ifdef _DEBUG
 	m_bInUse = false;
-#endif//_DEBUG
 	m_cUnitHealth.clear( );
 }
 
@@ -25,14 +23,16 @@ CAutomate::OnGameLoop( void )
 		{
 			Unit* lpcPlayer = *g_lpcLocalPlayer;
 
-#ifdef _DEBUG
+
 			if( m_bInUse == false )
 			{
+#ifdef _DEBUG
 				OutputDebugStringA("Toggled On\n");
+#endif//_DEBUG
 				CCore::s_lpcCore->Print("Last Hit Bot is now <font color='#00FF00'>Activated</font>");
 				m_bInUse = true;
 			}
-#endif//_DEBUG
+
 
 			Unit* lpcBestUnit = NULL;
 
@@ -128,15 +128,17 @@ CAutomate::OnGameLoop( void )
 
 		m_dwLastCheck = dwCurrentTickCount;
 	}
-#ifdef _DEBUG
+
 	if( ! (GetAsyncKeyState( VK_MENU ) & 0x8000) )
 	{
 		if( m_bInUse == true )
 		{
+#ifdef _DEBUG
 			OutputDebugStringA("Toggled Off\n");
+#endif//DEBUG
 			CCore::s_lpcCore->Print("Last Hit Bot is now <font color='#FF0000'>Deactivated</font>");
 			m_bInUse = false;
 		}
 	}
-#endif//DEBUG
+
 }
