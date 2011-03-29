@@ -20,15 +20,15 @@
 #endif
 
 // Variables
-MakeVar( ObjectManager*, g_lpcUnitManager, 0x2B22EFC )
-MakeVar( Unit**, g_lpcLocalPlayer, 0x009EF10C )
-MakeVar( DWORD, g_dwPrintArgument, 0x2A9C068 )
+MakeVar( ObjectManager*, g_lpcUnitManager, 0x02B2700C )
+MakeVar( Unit**, g_lpcLocalPlayer, 0x009F22DC )
+MakeVar( DWORD, g_dwPrintArgument, 0x02AA0178 )
 
 // Function Pointers
-MakeFnc( void, __fastcall, ( void ), Game_Loop, 0x00754DFE )
-MakeFnc( void, __thiscall, ( Unit* _this, DWORD dwActionType, float* lpfPos, Unit* lpcTarget, DWORD dwArg4, DWORD dwArg5, bool bUnk ), Unit_IssueOrder, 0x006EA2D0 )
-MakeFnc( Unit*, __cdecl, ( DWORD dwNetworkId ), Unit_GetUnitByNetworkId, 0x00815100 )
-MakeFnc( int, __fastcall, ( char* szText, DWORD dwArgument, bool bUnk1, bool bUnk2 ), Print_Console, 0x79F590 )
+MakeFnc( void, __fastcall, ( void ), Game_Loop, 0x00753CAE )
+MakeFnc( void, __thiscall, ( Unit* _this, DWORD dwActionType, float* lpfPos, Unit* lpcTarget, DWORD dwArg4, DWORD dwArg5, bool bUnk ), Unit_IssueOrder, 0x006E9060 )
+MakeFnc( Unit*, __cdecl, ( DWORD dwNetworkId ), Unit_GetUnitByNetworkId, 0x00817100 )
+MakeFnc( int, __fastcall, ( char* szText, DWORD dwArgument, bool bUnk1, bool bUnk2 ), Print_Console, 0x0079EEB0 )
 
 #undef MakeFnc
 #undef MakeVar
